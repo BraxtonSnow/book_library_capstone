@@ -6,10 +6,12 @@ book = Blueprint("books", __name__)
 
 @book.route("/book", methods=["POST"])
 def book_add() -> Response:
+    # print("request here: ", request)
     return books_controller.book_add(request)
 
 @book.route("/books", methods=["GET"])
 def books_get_all() -> Response:
+    # print("request here: ", request)
     return books_controller.books_get_all(request)
 
 @book.route("/book/<book_id>", methods=["GET"])

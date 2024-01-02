@@ -2,7 +2,7 @@ from flask import jsonify, Response
 
 from db import db 
 from util.reflection import populate_object
-from lib.authenticate import authenticate
+# from lib.authenticate import authenticate
 from models.books import Books, books_schema, book_schema
 from models.authors import Authors
 from models.genres import Genres 
@@ -34,6 +34,7 @@ def book_add(req) -> Response:
     book_query.authors.append(author_query)
     book_query.images.append(image_query)
     book_query.genres.append(genre_query)
+    print("book_query",book_query)
     db.session.commit()
 
     return jsonify(book_schema.dump(book_query)), 201
@@ -42,6 +43,7 @@ def book_add(req) -> Response:
 # @authenticate
 def books_get_all(req) -> Response:
     query = db.session.query(Books).all()
+    print("query: ", query.title)
 
     return jsonify(books_schema.dump(query)), 200
 

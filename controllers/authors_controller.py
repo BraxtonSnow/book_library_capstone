@@ -2,11 +2,12 @@ from flask import jsonify, Response
 
 from db import db 
 from util.reflection import populate_object
+from lib.authenticate import authenticate
 from models.authors import Authors, authors_schema, author_schema
 
 
-
-def author_add(req) -> Response:
+@authenticate
+def author_add(req, auth_info) -> Response:
     post_data = req.form if req.form else req.json
     author_name = post_data.get("author_name")
 
@@ -31,19 +32,22 @@ def author_add(req) -> Response:
     return jsonify(author_schema.dump(query)), 201
 
 
-def authors_get_all(req) -> Response:
+@authenticate
+def authors_get_all(req, auth_info) -> Response:
     query = db.session.query(Authors).all()
 
     return jsonify(authors_schema.dump(query)), 200
 
 
-def author_get_by_id(req, author_id) -> Response:
+@authenticate
+def author_get_by_id(req, author_id, auth_info) -> Response:
     query = db.session.query(Authors).filter(Authors.author_id == author_id).first()
 
     return jsonify(author_schema.dump(query)), 200
 
 
-def author_update_by_id(req, author_id) -> Response:
+@authenticate
+def author_update_by_id(req, author_id, auth_info) -> Response:
     post_data = req.form if req.form else req.json
 
     query = db.session.query(Authors).filter(Authors.author_id == author_id).first()
@@ -65,7 +69,8 @@ def author_update_by_id(req, author_id) -> Response:
     return jsonify({"message": "record updated successfully", "author": author_schema.dump(query)}), 200
 
 
-def author_activity(req, author_id) -> Response:
+@authenticate
+def author_activity(req, author_id, auth_info) -> Response:
     query = db.session.query(Authors).filter(Authors.author_id == author_id).first()
 
     if query:
@@ -100,7 +105,8 @@ def author_activity(req, author_id) -> Response:
         return jsonify(f"author with the author_id {author_id} not found"), 404
     
 
-def author_delete_by_id(req, author_id) -> Response:
+@authenticate
+def author_delete_by_id(req, author_id, auth_info) -> Response:
     author_query = db.session.query(Authors).filter(Authors.author_id == author_id).first()
 
     try:

@@ -18,6 +18,8 @@ def author_get_by_id(author_id) -> Response:
 
 @author.route("/author/<author_id>", methods=["PUT"])
 def author_update_by_id(author_id) -> Response:
+    # print(f"request: ", request)
+    # print("author_id: ", author_id)
     return authors_controller.author_update_by_id(request, author_id)
 
 @author.route("/author/<author_id>", methods=["PATCH"])

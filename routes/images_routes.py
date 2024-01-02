@@ -6,6 +6,7 @@ image = Blueprint("images", __name__)
 
 @image.route("/image", methods=["POST"])
 def image_add() -> Response:
+    # print("request :", request)
     return images_controller.image_add(request)
 
 @image.route("/images", methods=["GET"])

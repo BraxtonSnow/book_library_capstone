@@ -8,6 +8,7 @@ from models.images import Images, images_schema, image_schema
 
 def image_add(req) -> Response:
     post_data = req.form if req.form else req.json
+    print("post_data: ", post_data)
     image_name = post_data.get("image_name")
 
     new_record = Images.get_new_image()
